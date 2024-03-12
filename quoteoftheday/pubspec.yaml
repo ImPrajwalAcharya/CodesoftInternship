@@ -40,6 +40,7 @@ dependencies:
   sqflite: ^2.3.2
   sqflite_common_ffi: ^2.3.0+4
   flutter_local_notifications: ^16.3.3
+  flutter_tts: ^3.8.5
 
 dev_dependencies:
   flutter_test:

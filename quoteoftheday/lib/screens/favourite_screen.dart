@@ -3,6 +3,8 @@ import 'package:quoteoftheday/screens/home_screen.dart';
 import 'package:quoteoftheday/storage/storage.dart';
 import 'package:share/share.dart';
 
+import '../api/text_to_speech.dart';
+
 class FavouriteScreen extends StatefulWidget {
   const FavouriteScreen({super.key});
 
@@ -83,6 +85,14 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                   Icons.favorite,
                                   color: Colors.blueGrey,
                                 )),
+                            IconButton(
+                                onPressed: () async {
+                                  playquote(quote["content"] +
+                                      " by " +
+                                      quote["author"]);
+                                },
+                                icon: Icon(Icons.volume_up,
+                                    color: Colors.blueGrey)),
                             SizedBox(width: 10),
                             IconButton(
                               onPressed: () {

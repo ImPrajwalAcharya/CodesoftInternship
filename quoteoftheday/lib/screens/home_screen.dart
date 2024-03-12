@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:quoteoftheday/api/fetch.dart';
 import 'package:share/share.dart';
 
+import '../api/text_to_speech.dart';
 import '../models/quote.dart';
 import '../storage/storage.dart';
 import 'package:timezone/timezone.dart' as tz;
@@ -116,10 +117,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                     });
                                   },
                                   icon: favourate
-                                      ? Icon(Icons.favorite,color: Colors.blueGrey)
-                                      : Icon(Icons.favorite_border, color: Colors.blueGrey),
+                                      ? Icon(Icons.favorite,
+                                          color: Colors.blueGrey)
+                                      : Icon(Icons.favorite_border,
+                                          color: Colors.blueGrey),
                                 ),
-                                SizedBox(width: 10),
+                                IconButton(
+                                    onPressed: () async {
+                                      playquote(quote["content"]+" by "+quote["author"]);
+                                    },
+                                    icon: Icon(Icons.volume_up,
+                                        color: Colors.blueGrey)),
+                                // SizedBox(width: 10),
                                 IconButton(
                                   onPressed: () {
                                     share();
