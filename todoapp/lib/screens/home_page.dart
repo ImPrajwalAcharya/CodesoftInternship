@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:todoapp/cubit/cubit_name.dart';
 import 'package:todoapp/screens/add_task.dart';
 import 'package:todoapp/screens/edittask.dart';
@@ -183,22 +182,6 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ))
                   ],
-                ),
-                BlocBuilder(
-                  bloc: taskCubit,
-                  builder: (context, task) {
-                    if (task == []) {
-                      taskCubit.getTask();
-                    }
-
-                    return Text(
-                      '${(task as List<Task>).where((tas) => !tas.done!).length} task pending',
-                      style: TextStyle(
-                          fontSize: 15,
-                          color: Colors.grey,
-                          fontWeight: FontWeight.bold),
-                    );
-                  },
                 ),
               ],
             ),

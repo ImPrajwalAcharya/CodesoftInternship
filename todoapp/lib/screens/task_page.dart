@@ -36,49 +36,66 @@ class _TaskPageState extends State<TaskPage> {
         task.sort((a, b) => a.time!.compareTo(b.time!));
         task.sort((a, b) => a.date!.compareTo(b.date!));
         return Column(
+          // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-                padding: EdgeInsets.all(8),
-                child: Text(
-                  'Task Progress',
-                  style: TextStyle(
-                      fontFamily: 'OpenSans', fontWeight: FontWeight.w500),
-                )),
-            Container(
-                height: 100,
-                width: 100,
-                child: DashedCircularProgressBar.aspectRatio(
-                  aspectRatio: 1, // width ÷ height
-                  valueNotifier: ValueNotifier(
-                      task.where((task) => task.done!).length /
-                          task.length *
-                          100),
-                  progress: task.where((task) => task.done!).length /
-                      task.length *
-                      100,
-                  maxProgress: 100,
-                  corners: StrokeCap.butt,
-                  foregroundColor: Colors.deepPurpleAccent,
-                  backgroundColor: const Color(0xffeeeeee),
-                  foregroundStrokeWidth: 15,
-                  backgroundStrokeWidth: 15,
-                  animation: true,
-                  child: Center(
-                    child: ValueListenableBuilder(
-                      valueListenable: ValueNotifier(
-                          task.where((task) => task.done!).length /
-                              task.length *
-                              100),
-                      builder: (_, double value, __) => Text(
-                        '${value.toInt()}%',
-                        style: const TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w300,
-                            fontSize: 25),
+              width: double.infinity,
+              padding: EdgeInsets.only(left: 40, bottom: 5),
+              // transformAlignment: Alignment.topRight,
+              child: Text(
+                '${(task as List<Task>).where((tas) => !tas.done!).length} task pending',
+                style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.grey,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+            Center(
+              child: Container(
+                  padding: EdgeInsets.all(8),
+                  child: Text(
+                    'Task Progress',
+                    style: TextStyle(
+                        fontFamily: 'OpenSans', fontWeight: FontWeight.w500),
+                  )),
+            ),
+            Center(
+              child: Container(
+                  height: 100,
+                  width: 100,
+                  child: DashedCircularProgressBar.aspectRatio(
+                    aspectRatio: 1, // width ÷ height
+                    valueNotifier: ValueNotifier(
+                        task.where((task) => task.done!).length /
+                            task.length *
+                            100),
+                    progress: task.where((task) => task.done!).length /
+                        task.length *
+                        100,
+                    maxProgress: 100,
+                    corners: StrokeCap.butt,
+                    foregroundColor: Colors.deepPurpleAccent,
+                    backgroundColor: const Color(0xffeeeeee),
+                    foregroundStrokeWidth: 15,
+                    backgroundStrokeWidth: 15,
+                    animation: true,
+                    child: Center(
+                      child: ValueListenableBuilder(
+                        valueListenable: ValueNotifier(
+                            task.where((task) => task.done!).length /
+                                task.length *
+                                100),
+                        builder: (_, double value, __) => Text(
+                          '${value.toInt()}%',
+                          style: const TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w300,
+                              fontSize: 25),
+                        ),
                       ),
                     ),
-                  ),
-                )),
+                  )),
+            ),
             Container(
               margin: EdgeInsets.all(8),
               width: double.infinity,
@@ -127,9 +144,9 @@ class _TaskPageState extends State<TaskPage> {
                             ),
                           ),
                           Container(
-                            constraints: BoxConstraints(minHeight: 200),
+                            // constraints: BoxConstraints(),
                             padding: EdgeInsets.all(10),
-                            width: MediaQuery.of(context).size.width * 0.65,
+                            width: MediaQuery.of(context).size.width * 0.8,
                             decoration: BoxDecoration(
                               boxShadow: [
                                 BoxShadow(
@@ -140,87 +157,132 @@ class _TaskPageState extends State<TaskPage> {
                                       0, 3), // changes position of shadow
                                 ),
                               ],
-                              color: Colors.deepPurpleAccent.withOpacity(0.5),
+                              color: Colors.deepPurpleAccent.withOpacity(0.3),
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  (task)[index].title.toString(),
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 20,
-                                    fontFamily: 'OpenSans',
-                                    fontWeight: FontWeight.bold,
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Expanded(
+                                      child: Column(
+                                        children: [
+                                          Center(
+                                            child: Text(
+                                              (task)[index].title.toString(),
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 20,
+                                                fontFamily: 'OpenSans',
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                          Center(
+                                            child: Container(
+                                              padding: EdgeInsets.all(5),
+                                              height: 1,
+                                              color:
+                                                  Colors.white.withOpacity(0.3),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(left: 10),
+                                            child: Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: Text(
+                                                (task)[index]
+                                                    .description
+                                                    .toString(),
+                                                style: const TextStyle(
+                                                    fontFamily: 'OpenSans',
+                                                    fontSize: 15,
+                                                    color: Colors.white),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        SizedBox(
+                                          height: 30,
+                                        ),
+                                        IconButton(
+                                            onPressed: () {
+                                              Navigator.of(context)
+                                                  .push(MaterialPageRoute(
+                                                builder: (context) {
+                                                  return EditTask(
+                                                      task: task[index]);
+                                                },
+                                              ));
+                                              setState(() {});
+                                            },
+                                            icon: const Icon(
+                                              Icons.edit_document,
+                                              color: Colors.deepPurpleAccent,
+                                            )),
+                                        IconButton(
+                                            onPressed: () {
+                                              taskcubit.removeTask(task[index]);
+                                              setState(() {});
+                                            },
+                                            icon: Icon(
+                                              Icons.delete,
+                                              color: Colors.redAccent
+                                                  .withOpacity(0.7),
+                                            )),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(top: 8),
+                                  height: 1,
+                                  color: Colors.white.withOpacity(0.3),
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.all(8),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                          ((task)[index].time)
+                                              .toString()
+                                              .substring(10, 15),
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            color: Colors.white70,
+                                            fontFamily: 'OpenSans',
+                                            fontWeight: FontWeight.bold,
+                                          )),
+                                      Text(
+                                        DateFormat.yMMMMd()
+                                            .format(DateTime.parse(
+                                                (task)[index].date!))
+                                            .toString(),
+                                        style: const TextStyle(
+                                          color: Colors.white70,
+
+                                          fontSize: 15,
+                                          fontFamily: 'OpenSans',
+                                          // fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 10),
-                                  child: Text(
-                                    (task)[index].description.toString(),
-                                    style: const TextStyle(
-                                        fontFamily: 'OpenSans',
-                                        fontSize: 15,
-                                        color: Colors.white),
-                                  ),
-                                )
                               ],
                             ),
-                          ),
-                          Column(
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.all(10),
-                                child: Text(
-                                    ((task)[index].time)
-                                        .toString()
-                                        .substring(10, 15),
-                                    style: const TextStyle(
-                                      fontSize: 15,
-                                      color: Colors.deepPurpleAccent,
-                                      fontFamily: 'OpenSans',
-                                      fontWeight: FontWeight.bold,
-                                    )),
-                              ),
-                              Container(
-                                padding: const EdgeInsets.all(2),
-                                child: Text(
-                                    DateFormat('yyyy-MM-dd').format(
-                                        DateTime.parse((task)[index].date!)),
-                                    style: const TextStyle(
-                                      color: Colors.deepPurpleAccent,
-
-                                      fontSize: 10,
-                                      fontFamily: 'OpenSans',
-                                      // fontWeight: FontWeight.bold,
-                                    )),
-                              ),
-                              IconButton(
-                                  onPressed: () {
-                                    taskcubit.removeTask(task[index]);
-                                    setState(() {});
-                                  },
-                                  icon: const Icon(
-                                    Icons.delete,
-                                    color: Colors.redAccent,
-                                  )),
-                              IconButton(
-                                  onPressed: () {
-                                    Navigator.of(context)
-                                        .push(MaterialPageRoute(
-                                      builder: (context) {
-                                        return EditTask(task: task[index]);
-                                      },
-                                    ));
-                                    setState(() {});
-                                  },
-                                  icon: const Icon(
-                                    Icons.edit,
-                                    color: Colors.deepPurpleAccent,
-                                  )),
-                            ],
                           ),
                         ],
                       ),
